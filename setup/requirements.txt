@@ -19,7 +19,7 @@ eel
 
 #pytesseract
 Pillow
-
+comtypes
 wmi
 psutil
 
