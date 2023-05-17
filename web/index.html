@@ -1197,7 +1197,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	idpage1	idpage2	idpage3..."></textarea>
                     // console.log(msg);
 
 
-                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id">ID</th><th>UID</th><th name="password">Password</th><th name="key2fa">2FA Key</th><th name="cookie">Cookie</th><th name="page">Page</th><th>Proxy</th><th name="status">Status</th></tr></thead>`;
+                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id">ID</th><th>UID</th><th name="password">Password</th><th name="key2fa">2FA Key</th><th name="cookie">Cookie</th><th>Proxy</th><th name="page">Page</th><th name="status">Status</th></tr></thead>`;
                     var tr = "";
                     var i = 0;
                     for (const element of data) {
@@ -1211,8 +1211,9 @@ uid	mật_khẩu	key2fa	cookie	proxy	idpage1	idpage2	idpage3..."></textarea>
                             <td><input type="text"  value="${element.password}"></td>
                             <td><input type="text"  value="${element.key2fa}"></td>
                             <td><input type="text"  value="${element.cookie}"></td>
-                            <td><input type="text" value="${element.page != null && element.page != '' ? element.page : ''}"></td>
                             <td><input type="text" value="${element.proxy != null && element.proxy != '' ? element.proxy : ''}"></td>
+                            <td><input type="text" value="${element.page != null && element.page != '' ? element.page : ''}"></td>
+                            
                             <td><input type="text" name="status" value="${element.status != null && element.status != '' ? element.status : ''}"></td>
 
 
