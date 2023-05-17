@@ -56,6 +56,42 @@
         <br>
 
         <style>
+            .dialog {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .dialog-content {
+                background-color: white;
+                border-radius: 5px;
+                padding: 20px;
+                text-align: center;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                height: 80%
+            }
+
+            .dialog-button {
+                background-color: rgb(76, 175, 80);
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 3px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-right: 30px;
+                width: 100px;
+            }
+
             .btn {
                 background-color: DodgerBlue;
                 border: none;
@@ -113,6 +149,8 @@
                     <button class="btn" name="main" id="tab_setting" title="Setting"><i class="fa fa-cog"></i></button>
                     <button class="btn" name="main" id="tab_log" title="Logs"><i class="fa fa-paper-plane"></i></button>
                     <button class="btn" id="tab_folder" title="Open data folder"><i class="fa fa-folder"></i></button>
+                    <button class="btn" id="tab_xemnhatkyupload" title="Xem nhật ký upload"><i
+                            class="fa fa-eye-slash"></i></button>
                 </div>
                 <div class="khoangcach">
                     <button class="btn" style="color: red;" id="stop" title="Stop"><i class="fa fa-stop"></i></button>
@@ -316,6 +354,16 @@
 
         </div>
 
+        <div id="dialog" class="dialog">
+            <div class="dialog-content">
+                <div>
+                    <table class="w3-table-all" id="tableShow"></table>
+                </div>
+                <br>
+                <button class="dialog-button" style="background-color: rgb(76, 175, 80);"
+                    onclick="var dialog = document.getElementById('dialog'); dialog.style.display='none';">OK</button>
+            </div>
+        </div>
 
         <script>
             var apikeyactive = "apikeyactive"
@@ -377,6 +425,41 @@
 
             $('#tab_folder').bind('click', function () {
                 eel.openFolder("data/")
+            })
+
+
+
+
+
+            $('#tab_xemnhatkyupload').bind('click', function () {
+                eel.xem_nhat_ky_upload()(function (callback) {
+
+                    console.log(callback)
+                    var dialog = document.getElementById("dialog");
+
+                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th style="width: 18%">UID</th><th style="width: 18%" name="page">Page</th><th name="page" style="width: 10%">Video</th><th name="status">Status</th></tr></thead>`;
+                    var tr = "";
+                    var i = 0;
+
+                    for (let uid in callback) {
+
+                        for (let pageid in callback[uid]) {
+                            var status = callback[uid][pageid]
+                            status = status.split("\t")
+                            thead = thead + `<tr class="w3-hover-green">                            
+                            <td><input type="text" style="width: 100%" value="${uid}"></td>
+                            <td><input type="text" style="width: 100%" value="${pageid}"></td>
+                            <td><input type="text" style="width: 100%" value="${status[0]}"></td>
+                            <td><input type="text" style="width: 100%" value="${status[1]}"></td></tr>`;
+                        }
+
+
+
+                    }
+
+                    setHtmlCssSelector("#tableShow", thead);
+                    dialog.style.display = "block";
+                })
             })
 
 
