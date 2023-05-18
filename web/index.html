@@ -31,7 +31,7 @@
     <style>
         body td>input {
             border: none;
-            width: 45%
+            width: 100%
         }
 
         .w3-table-all tr:nth-child(odd) {
@@ -172,7 +172,7 @@
             <!-- <button onclick="updateMails()" class="w3-button w3-teal w3-right">Cập nhật danh sách mail</button> -->
             <div id="main">
                 <div class="tab_home">
-                    <div style="overflow-y: scroll; height: 500px;">
+                    <div style="overflow-y: scroll; height: 610px;">
                         <table class="w3-table-all" id="tableMails">
                         </table>
                     </div>
@@ -953,6 +953,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
             <div class="menu-item" id="selectall-item">Select all mails</div>
             <div class="menu-item" id="selectall-item-no-running">Select mails that has not been run</div>
             <div class="menu-item" id="selectall-item-running">Select mails has been running</div>
+            <div class="menu-item" id="selectall-uid">Copy selected UID</div>
             <div class="menu-item" id="selectall-item-status" value="${statusValue}">Select mails with status is '${statusValue}'</div>
             <div class="menu-item" id="deselectall-item">Deselect all</div>
             <div class="menu-item" id="deleteall-item">Delete selected mails</div>
@@ -1036,6 +1037,21 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                                     return;
                                 }
                                 eel.exportAccounts(selected)(function (callback) {
+                                    // var msg = callback.msg
+                                    // console.log(msg)
+                                    // if (msg == "Success") {
+                                    //     alert("Export email successfully")
+                                    // } else {
+                                    //     alert("Export mail failed")
+                                    // }
+                                });
+                            });
+                            $("#selectall-uid").bind("click", function () {
+                                if (selected.length == 0) {
+                                    toastError("Chọn mail cần copy");
+                                    return;
+                                }
+                                eel.copyUID(selected)(function (callback) {
                                     // var msg = callback.msg
                                     // console.log(msg)
                                     // if (msg == "Success") {
@@ -1199,7 +1215,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                     // console.log(msg);
 
 
-                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id">ID</th><th>UID</th><th name="password">Password</th><th name="key2fa">2FA Key</th><th name="cookie">Cookie</th><th>Proxy</th><th name="page">Page</th><th name="status">Status</th></tr></thead>`;
+                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id">ID</th><th style="width: 10%">UID</th><th style="width: 10%" name="password">Password</th><th name="key2fa" style="width: 10%">2FA Key</th><th name="cookie" style="width: 10%">Cookie</th><th style="width: 22%">Proxy</th><th name="page">Page</th><th name="status">Status</th></tr></thead>`;
                     var tr = "";
                     var i = 0;
                     for (const element of data) {
