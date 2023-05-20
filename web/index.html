@@ -914,6 +914,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                 return new Promise((resolve, reject) => {
                     const table = document.getElementById("tableMails");
 
+                    var selectedRows = [];
                     table.addEventListener("contextmenu", function (event) {
                         event.preventDefault();
                         let selectedData;
@@ -1092,6 +1093,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                                 selectedPush(checkbox.value);
                                 showSelected()
 
+
                             });
                             $("#deselect-item").bind("click", function () {
                                 const checkbox = row.querySelector(
@@ -1231,7 +1233,7 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                     // console.log(msg);
 
 
-                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id">ID</th><th style="width: 10%">UID</th><th style="width: 10%" name="password">Password</th><th name="key2fa" style="width: 10%">2FA Key</th><th name="cookie" style="width: 10%">Cookie</th><th style="width: 22%">Proxy</th><th name="page">Page</th><th name="status">Status</th></tr></thead>`;
+                    var thead = `<thead><tr class="w3-light-grey w3-hover-red"><th id="select-table">Select</th><th name="id" onclick='sortTable("tableMails", 1)'>ID</th><th style="width: 10%">UID</th><th style="width: 10%" name="password">Password</th><th name="key2fa" style="width: 10%">2FA Key</th><th name="cookie" style="width: 10%">Cookie</th><th style="width: 22%">Proxy</th><th name="page">Page</th><th name="status" onclick='sortTable("tableMails", 8)'>Status</th></tr></thead>`;
                     var tr = "";
                     var i = 0;
                     for (const element of data) {
@@ -1256,6 +1258,102 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                         // console.log(element);
                     }
                     setHtmlCssSelector("#tableMails", thead);
+
+                    var table = document.getElementById("tableMails");
+                    var spaceKeyPressed = false;
+                    function handleMouseDown(event) {
+                        selectedRows = [];
+                        var selectedElements = document.querySelectorAll(".selected");
+                        selectedElements.forEach(function (element) {
+                            element.classList.remove("selected");
+                        });
+                        var row = event.target.parentNode;
+
+                        if (row.tagName === "TR") {
+                            if (spaceKeyPressed) {
+                                deselectAllRows();
+                                spaceKeyPressed = false;
+                            }
+                            selectRow(row);
+                        }
+
+                        document.addEventListener("mousemove", handleMouseMove);
+                        document.addEventListener("mouseup", handleMouseUp);
+                    }
+
+
+                    function deselectAllRows() {
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var row = selectedRows[i];
+                            row.classList.remove("selected");
+                        }
+                        selectedRows = [];
+                    }
+
+                    function handleMouseMove(event) {
+                        var rows = table.getElementsByTagName("tr");
+                        var startRowIndex = Array.prototype.indexOf.call(rows, selectedRows[0]);
+                        var endRowIndex = Array.prototype.indexOf.call(rows, event.target.parentNode);
+
+                        var minIndex = Math.min(startRowIndex, endRowIndex);
+                        var maxIndex = Math.max(startRowIndex, endRowIndex);
+
+                        for (var i = minIndex; i <= maxIndex; i++) {
+                            selectRow(rows[i]);
+                        }
+
+                    }
+                    function handleKeyPress(event) {
+                        if (event.code === "Space") {
+                            spaceKeyPressed = true
+                            selectSelectedRows();
+                        }
+                    }
+                    function selectSelectedRows() {
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var row = selectedRows[i];
+                            if (row.classList.contains("selected")) {
+                                // Thực hiện các thao tác mong muốn với các hàng đã chọn
+                                var checkbox = row.querySelector("input[type='checkbox']");
+                                if (!checkbox.checked) {
+                                    checkbox.checked = true;
+                                    selectedPush(row.id);
+                                } else {
+                                    checkbox.checked = false;
+                                    selectedRemove(row.id);
+                                }
+
+                            }
+
+
+                            // Hủy bỏ lớp CSS "selected" khỏi hàng
+
+                        }
+                        // showSelected()
+                        // Xóa tất cả các hàng đã chọn khỏi mảng selectedRows
+                        // selectedRows = [];
+
+                        showSelected()
+                    }
+                    function handleMouseUp(event) {
+                        document.removeEventListener("mousemove", handleMouseMove);
+                        document.removeEventListener("mouseup", handleMouseUp);
+                    }
+
+                    function selectRow(row) {
+                        if (row == undefined) {
+                            return
+                        }
+                        if (selectedRows.indexOf(row) === -1) {
+                            if (!row.classList.contains("selected")) {
+                                selectedRows.push(row);
+                                row.classList.add("selected");
+                            }
+                        }
+                    }
+
+                    table.addEventListener("mousedown", handleMouseDown);
+                    document.addEventListener("keydown", handleKeyPress);
 
                     eel.getSetting()(function (callback) {
                         var hconfig = callback.hconfig

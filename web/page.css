@@ -44,7 +44,7 @@
     font-family: "Poppins", sans-serif;
     letter-spacing: 0.6px;
     line-height: 1.4;
-    -webkit-user-select: none;
+    /* -webkit-user-select: none; */
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
   }
