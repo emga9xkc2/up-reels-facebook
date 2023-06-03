@@ -151,6 +151,7 @@
                     <button class="btn" id="tab_folder" title="Open data folder"><i class="fa fa-folder"></i></button>
                     <button class="btn" id="tab_xemnhatkyupload" title="Xem nhật ký upload"><i
                             class="fa fa-eye-slash"></i></button>
+                    <button class="btn" id="tab_xoaprofile" title="Xóa profile"><i class="fa fa-trash"></i></button>
                 </div>
                 <div class="khoangcach">
                     <button class="btn" style="color: red;" id="stop" title="Stop"><i class="fa fa-stop"></i></button>
@@ -361,12 +362,22 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
 
         <div id="dialog" class="dialog">
             <div class="dialog-content">
-                <div style="overflow-y: scroll; height: 500px;">
+                <div id="dialog-content" style="overflow-y: scroll; height: 500px;">
                     <table class="w3-table-all" id="tableShow"></table>
                 </div>
                 <br>
-                <button class="dialog-button" style="background-color: rgb(76, 175, 80);"
+                <button id="dialog-button" class="dialog-button" style="background-color: rgb(76, 175, 80);"
                     onclick="var dialog = document.getElementById('dialog'); dialog.style.display='none';">OK</button>
+            </div>
+        </div>
+        <div id="dialog_txt" class="dialog">
+            <div class="dialog-content">
+                <textarea class="lang" id="dialog_txt_input" rows="20"
+                    style="width: 100%; resize: none;border: 1px solid #ccc;"
+                    placeholder="Nhập danh sách uid cần xóa profile"></textarea>
+                <br>
+                <div id="addbutton"></div>
+
             </div>
         </div>
 
@@ -465,6 +476,27 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                     setHtmlCssSelector("#tableShow", thead);
                     dialog.style.display = "block";
                 })
+            })
+
+            $('#tab_xoaprofile').bind('click', function () {
+
+
+
+                var dialog = document.getElementById("dialog_txt");
+                dialog.style.display = "block";
+
+
+
+                $("#addbutton").html(`<button id="dialog_txt_btn" class="dialog-button"
+                    style="background-color: rgb(76, 175, 80);">Delete</button>`)
+                $("#dialog_txt_btn").bind('click', function () {
+                    var value = $("#dialog_txt_input").val()
+                    eel.xoa_profile(value)(function (callback) {
+
+                    })
+                    dialog.style.display = "none";
+                })
+
             })
 
 
