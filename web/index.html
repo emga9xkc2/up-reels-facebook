@@ -367,6 +367,8 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                 </div>
                 <br>
                 <button id="dialog-button" class="dialog-button" style="background-color: rgb(76, 175, 80);"
+                    onclick="copyTable()">Copy</button>
+                <button id=" dialog-button" class="dialog-button" style="background-color: rgb(76, 175, 80);"
                     onclick="var dialog = document.getElementById('dialog'); dialog.style.display='none';">OK</button>
             </div>
         </div>
@@ -477,7 +479,32 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
                     dialog.style.display = "block";
                 })
             })
+            function copyTable() {
 
+                var table = document.getElementById("tableShow");
+                var rows = table.getElementsByTagName("tr");
+
+                var values = [];
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var cells = row.getElementsByTagName("td");
+                    if (cells.length > 0) {
+                        var value = cells[0].querySelector("input").value + "	" + cells[1].querySelector("input").value + "	" + cells[2].querySelector("input").value + "	" + cells[3].querySelector("input").value;
+                        values.push(value);
+                    }
+                }
+
+                var textarea = document.createElement("textarea");
+                textarea.value = values.join("\n");
+                document.body.appendChild(textarea);
+
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+
+                toastSuccess("Copy thành công")
+
+            }
             $('#tab_xoaprofile').bind('click', function () {
 
 
