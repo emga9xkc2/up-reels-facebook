@@ -6,12 +6,13 @@ psutil
 pyotp
 Pillow
 
-greenlet==1.1.3
+#greenlet==1.1.3
 #gevent==22.10.1
-gevent==21.12.0
+#gevent==21.12.0
 pycryptodome
 
 playwright==1.31.1
+gevent==21.12.0
 #
 # gevent
 
