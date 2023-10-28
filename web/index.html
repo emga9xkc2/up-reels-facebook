@@ -157,6 +157,7 @@
                     <button class="btn" style="color: red;" id="stop" title="Stop"><i class="fa fa-stop"></i></button>
                     <button class="btn" style="color: yellow;" id="reload" title="Reload"><i
                             class="fa fa-refresh"></i></button>
+                    <button class="btn" id="tenpage" title="Tên page"><i class="fa fa-file-text"></i></button>
                     <div class="w3-right lang"><input type="checkbox" id="checkpause"><label for="checkpause">
                             Pause</label></div>
 
@@ -429,6 +430,10 @@ uid	mật_khẩu	key2fa	cookie	proxy	allpage"></textarea>
             })
             $('#reload').bind('click', function () {
                 updateMails(1)
+            })
+            $('#tenpage').bind('click', function () {
+                eel.openFile("tenpage.txt")
+
             })
             $('#openhconfig').bind('click', function () {
                 eel.openFile("hconfig.ini")
